@@ -7,7 +7,7 @@ use Combindma\Newsletter\Models\NewsletterSubscription;
 use Combindma\Newsletter\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class NewsletterSubscriptionTest extends TestCase
+class NewsletterTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,7 +23,7 @@ class NewsletterSubscriptionTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_create_a_newsletter_subscription()
+    public function user_can_create_a_newsletter_subscription()
     {
         $data =  $this->setData();
         $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.store'), $data);
@@ -39,7 +39,7 @@ class NewsletterSubscriptionTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_update_a_newsletter_subscription()
+    public function user_can_update_a_newsletter_subscription()
     {
         $subscriber = NewsletterSubscription::factory()->create();
         $data =  $this->setData();
@@ -54,7 +54,7 @@ class NewsletterSubscriptionTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_delete_a_newsletter_subscription()
+    public function user_can_delete_a_newsletter_subscription()
     {
         $subscriber = NewsletterSubscription::factory()->create();
         $response = $this->from(route('newsletter::newsletter.index'))->delete(route('newsletter::newsletter.destroy', $subscriber));
@@ -63,7 +63,7 @@ class NewsletterSubscriptionTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_restore_a_newsletter_subscription()
+    public function user_can_restore_a_newsletter_subscription()
     {
         $subscriber = NewsletterSubscription::factory()->create();
         $subscriber->delete();
@@ -77,7 +77,7 @@ class NewsletterSubscriptionTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_create_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_create_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
     {
         NewsletterSubscription::factory()->create([
             'email' => 'unique@email.com'
@@ -96,7 +96,7 @@ class NewsletterSubscriptionTest extends TestCase
      * @test
      * @dataProvider postFormValidationProvider
      */
-    public function admin_cannot_update_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
+    public function user_cannot_update_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
     {
         NewsletterSubscription::factory()->create([
             'email' => 'unique@email.com'
