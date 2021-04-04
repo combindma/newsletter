@@ -30,13 +30,20 @@ This is the contents of the published config file:
 ```php
 return [
     'apiKey' => env('MAILCHIMP_APIKEY'),
-
     'listId' => env('MAILCHIMP_LIST_ID'),
 ];
 ```
 
 ## Usage
 
+```php
+$data = [  
+    'email' => strtolower($this->email),
+    'list' => 'clients'
+];
+
+\Combindma\Newsletter\Newsletter::create($data);
+```
 
 ## Testing
 
