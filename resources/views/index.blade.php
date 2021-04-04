@@ -1,4 +1,4 @@
-@extends('dashui::admin.layouts.app')
+@extends('dashui::adminlayouts.app')
 @section('title', 'Abonnés aux newsletters')
 @section('content')
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -48,7 +48,7 @@
                                     <div class="mt-6 relative flex-1 px-4 py-6 sm:px-6">
                                         <form id="form-action" action="{{ route('newsletter::newsletter.store') }}" method="POST">
                                             @csrf
-                                            @include('newsletter::admin.newsletter.form', ['subscriber' => new \Combindma\Newsletter\Models\NewsletterSubscription()])
+                                            @include('newsletter::form', ['subscriber' => new \Combindma\Newsletter\Models\NewsletterSubscription()])
                                         </form>
                                     </div>
                                 </div>
@@ -66,9 +66,9 @@
                 </div>
             </div>
         </div>
-        @include('dashui::admin.components.alert')
+        @include('dashui::admincomponents.alert')
         @if ($subscribers->isEmpty())
-            @component('dashui::admin.components.blank-state')
+            @component('dashui::admincomponents.blank-state')
                 @slot('icon')
                     <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">
@@ -139,7 +139,7 @@
                                         {{ ucfirst($subscriber->phone)??'-' }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        @include('newsletter::admin.newsletter.menu-action', ['subscriber' => $subscriber])
+                                        @include('newsletter::menu-action', ['subscriber' => $subscriber])
                                     </td>
                                 </tr>
                             @endforeach
