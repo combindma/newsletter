@@ -5,7 +5,7 @@ namespace Combindma\Newsletter\Database\Factories;
 use Combindma\Newsletter\Models\NewsletterSubscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class NewsletterSubscriptionFactory extends Factory
+class NewsletterFactory extends Factory
 {
     protected $model = NewsletterSubscription::class;
 

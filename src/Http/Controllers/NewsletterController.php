@@ -18,7 +18,7 @@ class NewsletterController extends Controller
     {
         NewsletterSubscription::create($request->validated());
         flash(__('newsletter::messages.created'));
-        return redirect(route('newsletter::newsletter_subscriptions.index'));
+        return redirect(route('newsletter::newsletter.index'));
     }
 
 
