@@ -18,6 +18,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
             ->name('newsletter')
             ->hasConfigFile('newsletter')
             ->hasViews()
+            ->hasTranslations()
             ->hasMigration('create_newsletter_subscriptions_table');
     }
 }
