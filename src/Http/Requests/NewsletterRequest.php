@@ -3,9 +3,9 @@
 namespace Combindma\Newsletter\Http\Requests;
 
 use Combindma\Newsletter\Rules\PhoneRule;
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class NewsletterRequest extends FormRequest
 {
@@ -25,6 +25,7 @@ class NewsletterRequest extends FormRequest
         if ($this->getMethod() === 'PUT') {
             return $this->updateRules();
         }
+
         return $this->createRules();
     }
 

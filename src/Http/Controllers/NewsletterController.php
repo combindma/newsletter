@@ -2,7 +2,6 @@
 
 namespace Combindma\Newsletter\Http\Controllers;
 
-
 use Combindma\Newsletter\Http\Requests\NewsletterRequest;
 use Combindma\Newsletter\Models\NewsletterSubscription;
 
@@ -11,6 +10,7 @@ class NewsletterController extends Controller
     public function index()
     {
         $subscribers = NewsletterSubscription::withTrashed()->latest('id')->paginate(10);
+
         return view('newsletter::.index', compact('subscribers'));
     }
 
@@ -18,9 +18,9 @@ class NewsletterController extends Controller
     {
         NewsletterSubscription::create($request->validated());
         flash(__('newsletter::messages.created'));
+
         return redirect(route('newsletter::newsletter.index'));
     }
-
 
     public function edit(NewsletterSubscription $subscriber)
     {
@@ -31,6 +31,7 @@ class NewsletterController extends Controller
     {
         $subscriber->update($request->validated());
         flash(__('newsletter::messages.updated'));
+
         return back();
     }
 
@@ -38,13 +39,15 @@ class NewsletterController extends Controller
     {
         $subscriber->delete();
         flash(__('newsletter::messages.deleted'));
+
         return back();
     }
 
     public function restore($id)
     {
-        NewsletterSubscription::withTrashed()->where('id',$id)->restore();
+        NewsletterSubscription::withTrashed()->where('id', $id)->restore();
         flash(__('newsletter::messages.restored'));
+
         return back();
     }
 }
