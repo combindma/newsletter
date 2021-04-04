@@ -13,7 +13,7 @@ You can install the package via composer:
 composer require combindma/newsletter
 ```
 
-You can publish and run the migrations with:
+You must publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --provider="Combindma\Newsletter\NewsletterServiceProvider" --tag="newsletter-migrations"
@@ -29,6 +29,9 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'apiKey' => env('MAILCHIMP_APIKEY'),
+
+    'listId' => env('MAILCHIMP_LIST_ID'),
 ];
 ```
 

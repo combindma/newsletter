@@ -1,4 +1,4 @@
-@extends('dashui::adminlayouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Modifier abonné')
 @section('content')
     <div class="max-w-4xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
@@ -8,7 +8,7 @@
                     <div class="mb-4">
                         <h1 class="text-lg leading-6 font-medium text-gray-900">Modifier information abonné</h1>
                     </div>
-                    @include('dashui::admincomponents.alert')
+                    @include('dashui::components.alert')
                     @csrf
                     @method('PUT')
                     @include('newsletter::form')

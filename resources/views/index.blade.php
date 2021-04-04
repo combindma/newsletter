@@ -1,4 +1,4 @@
-@extends('dashui::adminlayouts.app')
+@extends('dashui::layouts.app')
 @section('title', 'Abonnés aux newsletters')
 @section('content')
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -66,9 +66,9 @@
                 </div>
             </div>
         </div>
-        @include('dashui::admincomponents.alert')
+        @include('dashui::components.alert')
         @if ($subscribers->isEmpty())
-            @component('dashui::admincomponents.blank-state')
+            @component('dashui::components.blank-state')
                 @slot('icon')
                     <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">

@@ -18,7 +18,18 @@ class NewsletterServiceProvider extends PackageServiceProvider
             ->name('newsletter')
             ->hasConfigFile('newsletter')
             ->hasViews()
-            ->hasTranslations()
-            ->hasMigration('create_newsletter_subscriptions_table');
+            ->hasTranslations();
+    }
+
+    public function packageBooted()
+    {
+        if ($this->app->runningInConsole()) {
+            // Export the migration
+            if (! class_exists('CreateNewsletterSubscriptionsTable')) {
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_newsletter_subscriptions_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_newsletter_subscriptions_table.php'),
+                ], 'newsletter-migrations');
+            }
+        }
     }
 }
