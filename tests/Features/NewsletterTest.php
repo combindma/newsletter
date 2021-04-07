@@ -2,7 +2,6 @@
 
 namespace Combindma\Newsletter\Tests\Features;
 
-
 use Combindma\Newsletter\Models\NewsletterSubscription;
 use Combindma\Newsletter\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +24,7 @@ class NewsletterTest extends TestCase
     /** @test */
     public function user_can_create_a_newsletter_subscription()
     {
-        $data =  $this->setData();
+        $data = $this->setData();
         $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.store'), $data);
         $response->assertRedirect(route('newsletter::newsletter.index'));
         $response->assertSessionHasNoErrors();
@@ -42,7 +41,7 @@ class NewsletterTest extends TestCase
     public function user_can_update_a_newsletter_subscription()
     {
         $subscriber = NewsletterSubscription::factory()->create();
-        $data =  $this->setData();
+        $data = $this->setData();
         $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
         $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
         $response->assertSessionHasNoErrors();
@@ -80,10 +79,10 @@ class NewsletterTest extends TestCase
     public function user_cannot_create_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
     {
         NewsletterSubscription::factory()->create([
-            'email' => 'unique@email.com'
+            'email' => 'unique@email.com',
         ]);
 
-        $data =  $this->setData([
+        $data = $this->setData([
             $formInput => $formInputValue,
         ]);
         $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.store'), $data);
@@ -99,14 +98,14 @@ class NewsletterTest extends TestCase
     public function user_cannot_update_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
     {
         NewsletterSubscription::factory()->create([
-            'email' => 'unique@email.com'
+            'email' => 'unique@email.com',
         ]);
         $subscriber = NewsletterSubscription::factory()->create();
-        $data =  $this->setData([
-            $formInput => $formInputValue
+        $data = $this->setData([
+            $formInput => $formInputValue,
         ]);
-        $response = $this->from(route('newsletter::newsletter.edit' , $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
-        $response->assertRedirect(route('newsletter::newsletter.edit' , $subscriber));
+        $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
+        $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
         $response->assertSessionHasErrors($formInput);
         $this->assertNotEquals($data['nom'], $subscriber->fresh()->nom);
         $this->assertNotEquals($data['prenom'], $subscriber->fresh()->prenom);

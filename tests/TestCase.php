@@ -3,12 +3,12 @@
 namespace Combindma\Newsletter\Tests;
 
 use Combindma\Newsletter\Http\Controllers\NewsletterController;
+use Combindma\Newsletter\NewsletterServiceProvider;
 use Elegant\Sanitizer\Laravel\SanitizerServiceProvider;
 use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Combindma\Newsletter\NewsletterServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -31,7 +31,7 @@ class TestCase extends Orchestra
     {
         return [
             NewsletterServiceProvider::class,
-            SanitizerServiceProvider::class
+            SanitizerServiceProvider::class,
         ];
     }
 
@@ -47,7 +47,6 @@ class TestCase extends Orchestra
 
         include_once __DIR__.'/../database/migrations/create_newsletter_subscriptions_table.php.stub';
         (new \CreateNewsletterSubscriptionsTable())->up();
-
     }
 
     protected function defineRoutes($router)
