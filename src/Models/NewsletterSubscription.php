@@ -12,4 +12,9 @@ class NewsletterSubscription extends Model
     use HasFactory;
 
     protected $fillable = ['nom', 'prenom', 'email', 'phone', 'list'];
+
+    protected static function newFactory()
+    {
+        return \Combindma\Newsletter\Database\Factories\NewsletterSubscriptionFactory::new();
+    }
 }
