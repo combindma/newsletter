@@ -32,4 +32,11 @@ class NewsletterServiceProvider extends PackageServiceProvider
             }
         }
     }
+
+    public function registeringPackage()
+    {
+        $this->app->singleton('newsletter', function() {
+            return new Newsletter();
+        });
+    }
 }

@@ -2,8 +2,10 @@
 
 return [
 
-    'apiKey' => env('MAILCHIMP_APIKEY'),
+    /*
+   * Enable or disable Sendinblue. Useful for local development when runing tests.
+   */
+    'api_enabled' => env('SENDINBLUE_ENABLED', false),
 
-    'listId' => env('MAILCHIMP_LIST_ID'),
-
+    'apiKey' => env('SENDINBLUE_APIKEY'),
 ];

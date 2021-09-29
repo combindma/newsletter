@@ -37,7 +37,7 @@ class NewsletterController extends Controller
 
     public function destroy(NewsletterSubscription $subscriber)
     {
-        $subscriber->delete();
+        $subscriber->forceDelete();
         flash(__('newsletter::messages.deleted'));
 
         return back();
