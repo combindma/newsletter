@@ -11,7 +11,7 @@ class NewsletterController extends Controller
     {
         $subscribers = NewsletterSubscription::withTrashed()->latest('id')->paginate(10);
 
-        return view('newsletter::.index', compact('subscribers'));
+        return view('newsletter::index', compact('subscribers'));
     }
 
     public function store(NewsletterRequest $request)
@@ -24,7 +24,7 @@ class NewsletterController extends Controller
 
     public function edit(NewsletterSubscription $subscriber)
     {
-        return view('newsletter::.edit', compact('subscriber'));
+        return view('newsletter::edit', compact('subscriber'));
     }
 
     public function update(NewsletterRequest $request, NewsletterSubscription $subscriber)

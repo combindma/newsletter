@@ -42,7 +42,9 @@ return [
 
 ```php
 $data = [  
-    'email' => strtolower($this->email),
+    'lname' => 'last name',
+    'fname' => 'first name',
+    'email' => 'email@email.com',
     'list' => 'clients'
 ];
 

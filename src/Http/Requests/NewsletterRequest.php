@@ -32,8 +32,8 @@ class NewsletterRequest extends FormRequest
     public function filters()
     {
         return [
-            'nom' => 'trim|lowercase',
-            'prenom' => 'trim|lowercase',
+            'lname' => 'trim|lowercase',
+            'fname' => 'trim|lowercase',
             'email' => 'trim|lowercase',
             'list' => 'trim|lowercase',
         ];
@@ -42,8 +42,8 @@ class NewsletterRequest extends FormRequest
     public function createRules()
     {
         return [
-            'nom' => 'nullable|string',
-            'prenom' => 'nullable|string',
+            'lname' => 'nullable|string',
+            'fname' => 'nullable|string',
             'email' => 'required|email|unique:newsletter_subscriptions',
             'phone' => ['nullable', new PhoneRule()],
             'list' => 'nullable|string',
@@ -53,8 +53,8 @@ class NewsletterRequest extends FormRequest
     public function updateRules()
     {
         return [
-            'nom' => 'nullable|string',
-            'prenom' => 'nullable|string',
+            'lname' => 'nullable|string',
+            'fname' => 'nullable|string',
             'email' => ['required', 'email', Rule::unique('newsletter_subscriptions')->ignore($this->subscriber)],
             'phone' => ['nullable', new PhoneRule()],
             'list' => 'nullable|string',

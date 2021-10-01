@@ -130,10 +130,10 @@
                                         <a href="mailto:{{ $subscriber->email }}">{{ $subscriber->email }}</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ ucfirst($subscriber->nom)??'-' }}
+                                        {{ ucfirst($subscriber->lname)??'-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ ucfirst($subscriber->prenom)??'-' }}
+                                        {{ ucfirst($subscriber->fname)??'-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ ucfirst($subscriber->phone)??'-' }}

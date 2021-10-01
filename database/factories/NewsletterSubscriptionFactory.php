@@ -12,11 +12,11 @@ class NewsletterSubscriptionFactory extends Factory
     public function definition()
     {
         return [
-            'nom' => $this->faker->lastName,
-            'prenom' => $this->faker->firstName,
+            'lname' => $this->faker->lastName,
+            'fname' => $this->faker->firstName,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'list' => 'Designers'
+            'list' => 'Customer'
         ];
     }
 }

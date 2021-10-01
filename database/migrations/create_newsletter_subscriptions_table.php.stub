@@ -10,8 +10,8 @@ class CreateNewsletterSubscriptionsTable extends Migration
     {
         Schema::create('newsletter_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 30)->nullable();
-            $table->string('prenom', 30)->nullable();
+            $table->string('lname', 30)->nullable();
+            $table->string('fname', 30)->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('list', 30)->nullable();

@@ -4,12 +4,12 @@
 </div>
 <div class="mb-4">
     <label class="form-label">Nom</label>
-    <input type="text" name="nom" value="{{ old('nom', optional($subscriber)->nom) }}" class="form-control">
+    <input type="text" name="lname" value="{{ old('lname', optional($subscriber)->lname) }}" class="form-control">
 </div>
 
 <div class="mb-4">
     <label class="form-label">Prénom</label>
-    <input type="text" name="prenom" value="{{ old('prenom', optional($subscriber)->prenom) }}" class="form-control">
+    <input type="text" name="fname" value="{{ old('fname', optional($subscriber)->fname) }}" class="form-control">
 </div>
 
 <div class="mb-4">

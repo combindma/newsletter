@@ -11,7 +11,7 @@ class NewsletterSubscription extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected $fillable = ['nom', 'prenom', 'email', 'phone', 'list'];
+    protected $fillable = ['lname', 'fname', 'email', 'phone', 'list'];
 
     protected static function newFactory()
     {
