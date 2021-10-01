@@ -29,8 +29,12 @@ This is the contents of the published config file:
 
 ```php
 return [
-    'apiKey' => env('MAILCHIMP_APIKEY'),
-    'listId' => env('MAILCHIMP_LIST_ID'),
+    /*
+   * Enable or disable Sendinblue. Useful for local development when runing tests.
+   */
+    'api_enabled' => env('SENDINBLUE_ENABLED', false),
+
+    'apiKey' => env('SENDINBLUE_APIKEY'),
 ];
 ```
 
@@ -42,7 +46,7 @@ $data = [
     'list' => 'clients'
 ];
 
-\Combindma\Newsletter\Newsletter::create($data);
+\Combindma\Newsletter\Facades\Newsletter::create($data);
 ```
 
 ## Testing
