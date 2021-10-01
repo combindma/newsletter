@@ -13,8 +13,8 @@ class NewsletterTest extends TestCase
     protected function setData($data = [])
     {
         return array_merge([
-            'nom' => strtolower($this->faker->name()),
-            'prenom' => strtolower($this->faker->name()),
+            'lname' => strtolower($this->faker->name()),
+            'fname' => strtolower($this->faker->name()),
             'email' => strtolower($this->faker->email),
             'phone' => $this->faker->phoneNumber,
             'list' => strtolower($this->faker->word()),
@@ -30,8 +30,8 @@ class NewsletterTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertCount(1, $newsletter_subscriptions = NewsletterSubscription::all());
         $subscriber = $newsletter_subscriptions->first();
-        $this->assertEquals($data['nom'], $subscriber->nom);
-        $this->assertEquals($data['prenom'], $subscriber->prenom);
+        $this->assertEquals($data['lname'], $subscriber->lname);
+        $this->assertEquals($data['fname'], $subscriber->fname);
         $this->assertEquals($data['email'], $subscriber->email);
         $this->assertEquals($data['phone'], $subscriber->phone);
         $this->assertEquals($data['list'], $subscriber->list);
@@ -45,11 +45,12 @@ class NewsletterTest extends TestCase
         $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
         $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
         $response->assertSessionHasNoErrors();
-        $this->assertEquals($data['nom'], $subscriber->fresh()->nom);
-        $this->assertEquals($data['prenom'], $subscriber->fresh()->prenom);
-        $this->assertEquals($data['email'], $subscriber->fresh()->email);
-        $this->assertEquals($data['phone'], $subscriber->fresh()->phone);
-        $this->assertEquals($data['list'], $subscriber->fresh()->list);
+        $subscriber->refresh();
+        $this->assertEquals($data['lname'], $subscriber->lname);
+        $this->assertEquals($data['fname'], $subscriber->fname);
+        $this->assertEquals($data['email'], $subscriber->email);
+        $this->assertEquals($data['phone'], $subscriber->phone);
+        $this->assertEquals($data['list'], $subscriber->list);
     }
 
     /** @test */
@@ -107,11 +108,12 @@ class NewsletterTest extends TestCase
         $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
         $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
         $response->assertSessionHasErrors($formInput);
-        $this->assertNotEquals($data['nom'], $subscriber->fresh()->nom);
-        $this->assertNotEquals($data['prenom'], $subscriber->fresh()->prenom);
-        $this->assertNotEquals($data['email'], $subscriber->fresh()->email);
-        $this->assertNotEquals($data['phone'], $subscriber->fresh()->phone);
-        $this->assertNotEquals($data['list'], $subscriber->fresh()->list);
+        $subscriber->refresh();
+        $this->assertNotEquals($data['lname'], $subscriber->lname);
+        $this->assertNotEquals($data['fname'], $subscriber->fname);
+        $this->assertNotEquals($data['email'], $subscriber->email);
+        $this->assertNotEquals($data['phone'], $subscriber->phone);
+        $this->assertNotEquals($data['list'], $subscriber->list);
     }
 
     public function postFormValidationProvider()

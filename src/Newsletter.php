@@ -39,17 +39,20 @@ class Newsletter
         return !$this->apiEnabled;
     }
 
-    public function create(array $data, array $listIds)
+    public function create(array $data, array $listIds = [])
     {
         NewsletterSubscription::updateOrCreate(
             ['email' => $data['email']],
             $data
         );
-        $apiData = [
-            'email' => $data['email'],
-            'listIds' => $listIds,
-        ];
-        $this->addContact($apiData);
+        if (!empty($listIds))
+        {
+            $apiData = [
+                'email' => $data['email'],
+                'listIds' => $listIds,
+            ];
+            $this->addContact($apiData);
+        }
     }
 
     public function addContact(array $apiData)
