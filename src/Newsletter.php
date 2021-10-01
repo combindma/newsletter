@@ -41,9 +41,12 @@ class Newsletter
 
     public function create(array $data, array $listIds)
     {
-        $email = NewsletterSubscription::create($data)->email;
+        NewsletterSubscription::updateOrCreate(
+            ['email' => $data['email']],
+            $data
+        );
         $apiData = [
-            'email' => $email,
+            'email' => $data['email'],
             'listIds' => $listIds,
         ];
         $this->addContact($apiData);
@@ -51,8 +54,7 @@ class Newsletter
 
     public function addContact(array $apiData)
     {
-        if ($this->apiIsNotEnabled())
-        {
+        if ($this->apiIsNotEnabled()) {
             return null;
         }
         $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $this->getApiKey());
