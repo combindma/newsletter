@@ -11,7 +11,7 @@
     "authors": [
         {
             "name": "Combind",
-            "email": "hello@combind.ma",
+            "email": "webmaster@combind.ma",
             "role": "Developer"
         }
     ],
@@ -21,16 +21,22 @@
         "combindma/flash": "^1.0",
         "elegantweb/sanitizer": "^1.0",
         "illuminate/contracts": "^8.0",
+        "illuminatech/validation-composite": "^1.2",
+        "propaganistas/laravel-disposable-email": "^2.1",
         "sendinblue/api-v3-sdk": "^7.4",
-        "spatie/laravel-package-tools": "^1.4.3"
+        "spatie/laravel-package-tools": "^1.4"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "brianium/paratest": "^6.2",
-        "nunomaduro/collision": "^5.3",
-        "orchestra/testbench": "^6.15",
-        "phpunit/phpunit": "^9.3",
-        "vimeo/psalm": "^4.4"
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "nunomaduro/collision": "^5.10",
+        "nunomaduro/larastan": "^1.0",
+        "orchestra/testbench": "^6.22",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-faker": "^1.0",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpunit/phpunit": "^9.5",
+        "spatie/laravel-ray": "^1.26"
     },
     "autoload": {
         "psr-4": {
@@ -44,10 +50,11 @@
         }
     },
     "scripts": {
-        "psalm": "vendor/bin/psalm",
-        "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
-        "test-filter": "vendor/bin/phpunit --no-coverage --filter",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+        "test": "vendor/bin/phpunit",
+        "test-f": "vendor/bin/phpunit --filter",
+        "pest": "vendor/bin/pest",
+        "pest-coverage": "vendor/bin/pest coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {
         "sort-packages": true
@@ -56,7 +63,10 @@
         "laravel": {
             "providers": [
                 "Combindma\\Newsletter\\NewsletterServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Newsletter": "Combindma\\Newsletter\\Facades\\Newsletter"
+            }
         }
     },
     "minimum-stability": "dev",

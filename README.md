@@ -16,13 +16,13 @@ composer require combindma/newsletter
 You must publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Combindma\Newsletter\NewsletterServiceProvider" --tag="newsletter-migrations"
+php artisan vendor:publish --tag="newsletter-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Combindma\Newsletter\NewsletterServiceProvider" --tag="newsletter-config"
+php artisan vendor:publish --tag="newsletter-config"
 ```
 
 This is the contents of the published config file:

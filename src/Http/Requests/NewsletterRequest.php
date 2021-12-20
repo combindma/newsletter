@@ -2,6 +2,7 @@
 
 namespace Combindma\Newsletter\Http\Requests;
 
+use Combindma\Newsletter\Rules\EmailRule;
 use Combindma\Newsletter\Rules\PhoneRule;
 use Elegant\Sanitizer\Laravel\SanitizesInput;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,7 +45,7 @@ class NewsletterRequest extends FormRequest
         return [
             'lname' => 'nullable|string',
             'fname' => 'nullable|string',
-            'email' => 'required|email|unique:newsletter_subscriptions',
+            'email' => ['required',new EmailRule(), 'email','unique:newsletter_subscriptions'],
             'phone' => ['nullable', new PhoneRule()],
             'list' => 'nullable|string',
         ];
@@ -55,7 +56,7 @@ class NewsletterRequest extends FormRequest
         return [
             'lname' => 'nullable|string',
             'fname' => 'nullable|string',
-            'email' => ['required', 'email', Rule::unique('newsletter_subscriptions')->ignore($this->subscriber)],
+            'email' => ['required', new EmailRule(),'email', Rule::unique('newsletter_subscriptions')->ignore($this->subscriber)],
             'phone' => ['nullable', new PhoneRule()],
             'list' => 'nullable|string',
         ];

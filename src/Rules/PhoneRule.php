@@ -13,6 +13,6 @@ class PhoneRule implements Rule
 
     public function message()
     {
-        return __('newsletter::messages.invalid');
+        return __('Le numéro de téléphone est invalide');
     }
 }

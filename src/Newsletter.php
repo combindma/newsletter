@@ -2,12 +2,10 @@
 
 namespace Combindma\Newsletter;
 
-use Combindma\Newsletter\Http\Controllers\NewsletterController;
 use Combindma\Newsletter\Models\NewsletterSubscription;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\CreateContact;
@@ -79,13 +77,5 @@ class Newsletter
         } catch (Exception $e) {
             Log::error($e);
         }
-    }
-
-    public function routes(string $prefix = 'dash')
-    {
-        Route::group(['prefix' => $prefix, 'as' => 'newsletter::'], function () {
-            Route::resource('newsletter', NewsletterController::class)->except(['show'])->parameters(['newsletter' => 'subscriber']);
-            Route::post('/newsletter/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletter.restore');
-        });
     }
 }

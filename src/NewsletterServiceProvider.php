@@ -2,6 +2,8 @@
 
 namespace Combindma\Newsletter;
 
+use Combindma\Newsletter\Http\Controllers\NewsletterController;
+use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -9,34 +11,21 @@ class NewsletterServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('newsletter')
             ->hasConfigFile('newsletter')
             ->hasViews()
-            ->hasTranslations();
+            ->hasTranslations()
+            ->hasMigration('create_newsletter_subscriptions_table');
     }
 
-    public function packageBooted()
+    public function packageRegistered()
     {
-        if ($this->app->runningInConsole()) {
-            // Export the migration
-            if (! class_exists('CreateNewsletterSubscriptionsTable')) {
-                $this->publishes([
-                    __DIR__ . '/../database/migrations/create_newsletter_subscriptions_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_newsletter_subscriptions_table.php'),
-                ], 'newsletter-migrations');
-            }
-        }
-    }
-
-    public function registeringPackage()
-    {
-        $this->app->singleton('newsletter', function() {
-            return new Newsletter();
+        Route::macro('newsletter', function (string $baseUrl = 'admin'){
+            Route::group(['prefix' => $baseUrl, 'as' => 'newsletter::'], function () {
+                Route::resource('newsletter', NewsletterController::class)->except(['show'])->parameters(['newsletter' => 'subscriber']);
+                Route::post('/newsletter/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletter.restore');
+            });
         });
     }
 }

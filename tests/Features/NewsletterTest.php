@@ -1,127 +1,66 @@
 <?php
 
-namespace Combindma\Newsletter\Tests\Features;
-
+use Combindma\Newsletter\Http\Controllers\NewsletterController;
 use Combindma\Newsletter\Models\NewsletterSubscription;
-use Combindma\Newsletter\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Faker\faker;
+use function Pest\Laravel\from;
+use function PHPUnit\Framework\assertCount;
 
-class NewsletterTest extends TestCase
+function setData(array $data = [])
 {
-    use RefreshDatabase;
-
-    protected function setData($data = [])
-    {
-        return array_merge([
-            'lname' => strtolower($this->faker->name()),
-            'fname' => strtolower($this->faker->name()),
-            'email' => strtolower($this->faker->email),
-            'phone' => $this->faker->phoneNumber,
-            'list' => strtolower($this->faker->word()),
-        ], $data);
-    }
-
-    /** @test */
-    public function user_can_create_a_newsletter_subscription()
-    {
-        $data = $this->setData();
-        $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.store'), $data);
-        $response->assertRedirect(route('newsletter::newsletter.index'));
-        $response->assertSessionHasNoErrors();
-        $this->assertCount(1, $newsletter_subscriptions = NewsletterSubscription::all());
-        $subscriber = $newsletter_subscriptions->first();
-        $this->assertEquals($data['lname'], $subscriber->lname);
-        $this->assertEquals($data['fname'], $subscriber->fname);
-        $this->assertEquals($data['email'], $subscriber->email);
-        $this->assertEquals($data['phone'], $subscriber->phone);
-        $this->assertEquals($data['list'], $subscriber->list);
-    }
-
-    /** @test */
-    public function user_can_update_a_newsletter_subscription()
-    {
-        $subscriber = NewsletterSubscription::factory()->create();
-        $data = $this->setData();
-        $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
-        $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
-        $response->assertSessionHasNoErrors();
-        $subscriber->refresh();
-        $this->assertEquals($data['lname'], $subscriber->lname);
-        $this->assertEquals($data['fname'], $subscriber->fname);
-        $this->assertEquals($data['email'], $subscriber->email);
-        $this->assertEquals($data['phone'], $subscriber->phone);
-        $this->assertEquals($data['list'], $subscriber->list);
-    }
-
-    /** @test */
-    public function user_can_delete_a_newsletter_subscription()
-    {
-        $subscriber = NewsletterSubscription::factory()->create();
-        $response = $this->from(route('newsletter::newsletter.index'))->delete(route('newsletter::newsletter.destroy', $subscriber));
-        $response->assertRedirect(route('newsletter::newsletter.index'));
-        $this->assertCount(0, NewsletterSubscription::all());
-    }
-
-    /** @test */
-    public function user_can_restore_a_newsletter_subscription()
-    {
-        $subscriber = NewsletterSubscription::factory()->create();
-        $subscriber->delete();
-        $this->assertCount(0, NewsletterSubscription::all());
-        $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.restore', $subscriber->id));
-        $response->assertRedirect(route('newsletter::newsletter.index'));
-        $this->assertCount(1, NewsletterSubscription::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postFormValidationProvider
-     */
-    public function user_cannot_create_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
-    {
-        NewsletterSubscription::factory()->create([
-            'email' => 'unique@email.com',
-        ]);
-
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $this->from(route('newsletter::newsletter.index'))->post(route('newsletter::newsletter.store'), $data);
-        $response->assertRedirect(route('newsletter::newsletter.index'));
-        $response->assertSessionHasErrors($formInput);
-        $this->assertCount(1, NewsletterSubscription::all());
-    }
-
-    /**
-     * @test
-     * @dataProvider postFormValidationProvider
-     */
-    public function user_cannot_update_a_newsletter_subscription_with_invalid_data($formInput, $formInputValue)
-    {
-        NewsletterSubscription::factory()->create([
-            'email' => 'unique@email.com',
-        ]);
-        $subscriber = NewsletterSubscription::factory()->create();
-        $data = $this->setData([
-            $formInput => $formInputValue,
-        ]);
-        $response = $this->from(route('newsletter::newsletter.edit', $subscriber))->put(route('newsletter::newsletter.update', $subscriber), $data);
-        $response->assertRedirect(route('newsletter::newsletter.edit', $subscriber));
-        $response->assertSessionHasErrors($formInput);
-        $subscriber->refresh();
-        $this->assertNotEquals($data['lname'], $subscriber->lname);
-        $this->assertNotEquals($data['fname'], $subscriber->fname);
-        $this->assertNotEquals($data['email'], $subscriber->email);
-        $this->assertNotEquals($data['phone'], $subscriber->phone);
-        $this->assertNotEquals($data['list'], $subscriber->list);
-    }
-
-    public function postFormValidationProvider()
-    {
-        return[
-            'email_is_required' => ['email', ''],
-            'email_must_be_a_valid_email' => ['email', 'invalid'],
-            'email_is_unique_on_create_or_update' => ['email', 'unique@email.com'],
-        ];
-    }
+    return array_merge([
+        'lname' => strtolower(faker()->name()),
+        'fname' => strtolower(faker()->name()),
+        'email' => strtolower(faker()->email),
+        'phone' => faker()->phoneNumber,
+        'list' => strtolower(faker()->word()),
+    ], $data);
 }
+
+test('user can create a newsletter subscription', function () {
+    $data = setData();
+    from(action([NewsletterController::class, 'index']))
+        ->post(action([NewsletterController::class, 'store']), $data)
+        ->assertRedirect(action([NewsletterController::class, 'index']))
+        ->assertSessionHasNoErrors();
+    assertCount(1, $newsletter_subscriptions = NewsletterSubscription::all());
+    $subscriber = $newsletter_subscriptions->first();
+    expect($subscriber->lname)->toBe($data['lname']);
+    expect($subscriber->fname)->toBe($data['fname']);
+    expect($subscriber->email)->toBe($data['email']);
+    expect($subscriber->phone)->toBe($data['phone']);
+    expect($subscriber->list)->toBe($data['list']);
+});
+
+test('user can update a newsletter subscription', function () {
+    $subscriber = NewsletterSubscription::factory()->create();
+    $data = setData();
+    from(action([NewsletterController::class, 'edit'], ['subscriber' => $subscriber]))
+        ->put(action([NewsletterController::class, 'update'], ['subscriber' => $subscriber]), $data)
+        ->assertRedirect(action([NewsletterController::class, 'edit'], ['subscriber' => $subscriber]))
+        ->assertSessionHasNoErrors();
+    $subscriber->refresh();
+    expect($subscriber->lname)->toBe($data['lname']);
+    expect($subscriber->fname)->toBe($data['fname']);
+    expect($subscriber->email)->toBe($data['email']);
+    expect($subscriber->phone)->toBe($data['phone']);
+    expect($subscriber->list)->toBe($data['list']);
+});
+
+test('user can delete a newsletter subscription', function () {
+    $subscriber = NewsletterSubscription::factory()->create();
+    from(action([NewsletterController::class, 'index']))
+        ->delete(action([NewsletterController::class, 'destroy'], ['subscriber' => $subscriber]))
+        ->assertRedirect(action([NewsletterController::class, 'index']));
+    assertCount(0, NewsletterSubscription::all());
+});
+
+test('user can restore a newsletter subscription', function () {
+    $subscriber = NewsletterSubscription::factory()->create();
+    $subscriber->delete();
+    assertCount(0, NewsletterSubscription::all());
+    from(action([NewsletterController::class, 'index']))
+        ->post(action([NewsletterController::class, 'restore'], ['id' => $subscriber->id]))
+        ->assertRedirect(action([NewsletterController::class, 'index']));
+    assertCount(1, NewsletterSubscription::all());
+});
