@@ -52,7 +52,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="flex-shrink-0 px-4 py-4 flex justify-end">
+                                <div class="shrink-0 px-4 py-4 flex justify-end">
                                     <button @click="open=false" type="button" class="btn-subtle">
                                         Annuler
                                     </button>
