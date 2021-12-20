@@ -34,7 +34,7 @@ class Newsletter
 
     public function apiIsNotEnabled()
     {
-        return !$this->apiEnabled;
+        return ! $this->apiEnabled;
     }
 
     public function create(array $data, array $listIds = [], array $attributes = [])
@@ -43,12 +43,11 @@ class Newsletter
             ['email' => $data['email']],
             $data
         );
-        if (!empty($listIds))
-        {
+        if (! empty($listIds)) {
             $apiData = [
                 'email' => $data['email'],
                 'listIds' => $listIds,
-                'attributes' => $attributes
+                'attributes' => $attributes,
             ];
             $this->addContact($apiData);
         }
@@ -68,7 +67,7 @@ class Newsletter
         $createContact['email'] = $apiData['email'];
         $createContact['listIds'] = $apiData['listIds'];
         $createContact['updateEnabled'] = true;
-        if (!empty($apiData['attributes'])) {
+        if (! empty($apiData['attributes'])) {
             $createContact['attributes'] = $apiData['attributes'];
         }
 
