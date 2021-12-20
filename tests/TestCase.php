@@ -33,6 +33,8 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
+        //Schema::dropAllTables(); //run MYSQL server by this command: brew services start mysql
+
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
