@@ -21,6 +21,10 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
+        $this->app->bind('newsletter', function ($app) {
+            return new Newsletter();
+        });
+
         Route::macro('newsletter', function (string $baseUrl = 'admin') {
             Route::group(['prefix' => $baseUrl, 'as' => 'newsletter::'], function () {
                 Route::resource('newsletter', NewsletterController::class)->except(['show'])->parameters(['newsletter' => 'subscriber']);
